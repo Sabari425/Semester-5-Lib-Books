@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semester 5 · Robotics & Automation · Books</title>
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- Google Fonts: Inter for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      /* 60% base: white with a subtle cool tint */
+      background: #f0f7fc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0a1f2e;
+      line-height: 1.5;
+      padding: 2rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 
+       New 60-30-10 palette:
+       60% #f0f7fc (airy white-blue base)
+       30% #0a3b5c (deep blue - primary)
+       10% #00b8b8 (cyan accent) + light green #2ecc71 as secondary accent 
+    */
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* --- header with depth & motion --- */
+    .header {
+      margin-bottom: 3.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(10, 59, 92, 0.08);
+      padding-bottom: 1.6rem;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: #00b8b8;
+      border-radius: 4px;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a1f2e;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .header h1 i {
+      color: #00b8b8; /* cyan accent */
+      font-size: 2.2rem;
+      background: rgba(0, 184, 184, 0.08);
+      padding: 0.4rem 0.7rem;
+      border-radius: 16px;
+    }
+
+    .header .sub {
+      font-size: 0.95rem;
+      color: #1a4a6a;
+      background: rgba(10, 59, 92, 0.06);
+      padding: 0.5rem 1.4rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .header .sub i {
+      color: #00b8b8;
+      font-size: 1rem;
+    }
+
+    /* --- course grid: premium card design --- */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2.2rem;
+      margin-top: 1.8rem;
+    }
+
+    /* card with depth, shadow, layered effect */
+    .course-card {
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 2rem 2rem 2.2rem;
+      box-shadow: 0 18px 36px -12px rgba(10, 59, 92, 0.06), 0 6px 12px -6px rgba(0, 0, 0, 0.02);
+      transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #0a3b5c 0%, #00b8b8 60%, #2ecc71 100%);
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 32px 56px -18px rgba(10, 59, 92, 0.14), 0 10px 20px -10px rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 184, 184, 0.2);
+    }
+
+    .course-card:hover::before {
+      opacity: 1;
+    }
+
+    .course-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #0a1f2e;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      border-bottom: 2px solid rgba(10, 59, 92, 0.06);
+      padding-bottom: 0.9rem;
+    }
+
+    .course-title i {
+      color: #00b8b8;
+      font-size: 1.6rem;
+      width: 2.2rem;
+      text-align: center;
+      background: rgba(0, 184, 184, 0.06);
+      padding: 0.2rem;
+      border-radius: 12px;
+    }
+
+    .book-section {
+      margin-top: 1.5rem;
+    }
+
+    .book-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      color: #0a3b5c;
+      background: #e3f0f7;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      margin-bottom: 0.9rem;
+    }
+
+    .book-category i {
+      font-size: 0.7rem;
+      color: #00b8b8;
+    }
+
+    .book-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .book-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.6rem 0.8rem 0.6rem 1rem;
+      border-radius: 18px;
+      background: #f7fbfe;
+      transition: background 0.15s ease, border-color 0.15s;
+      border-left: 4px solid transparent;
+    }
+
+    .book-item:hover {
+      background: #eef6fc;
+      border-left-color: #00b8b8;
+    }
+
+    .book-icon {
+      color: #0a3b5c;
+      font-size: 0.9rem;
+      width: 1.8rem;
+      text-align: center;
+      margin-top: 0.05rem;
+      opacity: 0.6;
+    }
+
+    .book-info {
+      flex: 1;
+    }
+
+    .book-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #0a1f2e;
+      line-height: 1.3;
+    }
+
+    .book-meta {
+      font-size: 0.78rem;
+      color: #2a5a7a;
+      margin-top: 0.15rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.2rem 0.8rem;
+    }
+
+    .book-meta i {
+      color: #2ecc71; /* light green for secondary accent */
+      width: 0.9rem;
+      font-size: 0.7rem;
+    }
+
+    .book-link {
+      color: #0a3b5c;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+      border-bottom: 1px dotted rgba(10, 59, 92, 0.2);
+      transition: border 0.15s, color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      white-space: nowrap;
+    }
+
+    .book-link i {
+      font-size: 0.7rem;
+      color: #00b8b8;
+    }
+
+    .book-link:hover {
+      color: #00b8b8;
+      border-bottom-color: #00b8b8;
+    }
+
+    .book-links-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .badge-note {
+      background: #e3f0f7;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      color: #0a3b5c;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .badge-note i {
+      font-size: 0.6rem;
+      color: #00b8b8;
+    }
+
+    .no-resource {
+      color: #5a7a8a;
+      font-style: italic;
+      font-size: 0.8rem;
+      background: #eef6fc;
+      padding: 0.1rem 0.9rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .no-resource i {
+      font-size: 0.7rem;
+      color: #5a7a8a;
+    }
+
+    /* --- footer with trust & personality --- */
+    .footer-note {
+      margin-top: 4.5rem;
+      padding: 1.8rem 0 0.8rem;
+      border-top: 1px solid rgba(10, 59, 92, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      color: #1a4a6a;
+      font-size: 0.9rem;
+      gap: 1rem;
+    }
+
+    .footer-note i {
+      color: #00b8b8;
+      margin: 0 0.2rem;
+    }
+
+    .pill {
+      background: #0a3b5c;
+      color: white;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .pill i {
+      color: #00b8b8;
+      margin: 0;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      body { padding: 1rem; }
+      .header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+      .header h1 { font-size: 1.8rem; }
+      .course-grid { grid-template-columns: 1fr; }
+    }
+
+    /* custom scroll */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #e3f0f7; }
+    ::-webkit-scrollbar-thumb { background: #8ab8d0; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #5a9aba; }
+
+    /* small motion */
+    .course-card .book-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .text-muted {
+      color: #3a6a8a;
+    }
+
+    /* premium touch: subtle background pattern */
+    .container {
+      background-image: radial-gradient(circle at 10% 20%, rgba(0, 184, 184, 0.03) 0%, transparent 50%);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- header with personality + icons -->
+  <header class="header">
+    <h1>
+      <i class="fas fa-graduation-cap icon-studies"></i>
+      <span>Semester 5 · Bookshelf</span>
+    </h1>
+    <div class="sub">
+      <i class="fas fa-book-open"></i>
+      <span>Automation & Robotics · 2026</span>
+    </div>
+  </header>
+
+  <!-- course grid -->
+  <div class="course-grid">
+
+    <!-- 1. Graph Theory + Complex Analysis -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-project-diagram"></i> Graph Theory & Complex Analysis
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Textbooks</div>
+        <div class="book-list">
+          <div class="book-item">
+            <div class="book-icon"><i class="fas fa-book"></i></div>
+            <div class="book-info">
+              <div class="book-title">J. A. Bondy & U. S. R. Murty — Graph Theory and Applications</div>
+              <div class="book-meta"><i class="fas fa-calendar-alt"></i> Springer, 2008</div>
+              <div class="book-links-group">
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=82715" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a>
+              </div>
+            </div>
+          </div>
+          <div class="book-item">
+            <div class="book-icon"><i class="fas fa-book"></i></div>
+            <div class="book-info">
+              <div class="book-title">E. Kreyszig — Advanced Engineering Mathematics (10th)</div>
+              <div class="book-meta"><i class="fas fa-calendar-alt"></i> John Wiley, 2016</div>
+              <div class="book-links-group">
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=29326&query_desc=au%2Cwrdl%3A%20E%20Kreyszig" target="_blank"><i class="fas fa-external-link-alt"></i> 7th ed</a>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=184610&query_desc=au%2Cwrdl%3A%20E%20Kreyszig" target="_blank"><i class="fas fa-external-link-alt"></i> eBook</a>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=39879&query_desc=au%2Cwrdl%3A%20E%20Kreyszig" target="_blank"><i class="fas fa-external-link-alt"></i> solutions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:1.4rem;">
+          <div class="book-category" style="background:#00b8b815; color:#0a3b5c;"><i class="fas fa-bookmark"></i> References</div>
+          <div class="book-list">
+            <div class="book-item">
+              <div class="book-icon"><i class="fas fa-book"></i></div>
+              <div class="book-info">
+                <div class="book-title">Zawiślak & Rysiński — Graph-Based Modelling in Engineering</div>
+                <div class="book-meta"><i class="fas fa-calendar-alt"></i> Springer, 2018</div>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=142368&query_desc=kw%2Cwrdl%3A%20Graph-Based%20Modelling%20in%20Engineering" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a>
+              </div>
+            </div>
+            <div class="book-item">
+              <div class="book-icon"><i class="fas fa-book"></i></div>
+              <div class="book-info">
+                <div class="book-title">Narsingh Deo — Graph Theory with Applications</div>
+                <div class="book-meta"><i class="fas fa-calendar-alt"></i> PHI, 2008</div>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=69863&query_desc=kw%2Cwrdl%3A%20Graph%20Theory%20with%20Applications" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a>
+              </div>
+            </div>
+            <div class="book-item">
+              <div class="book-icon"><i class="fas fa-book"></i></div>
+              <div class="book-info">
+                <div class="book-title">Wylie & Barrett — Advanced Engineering Mathematics (6th)</div>
+                <div class="book-meta"><i class="fas fa-calendar-alt"></i> McGraw Hill, 2016</div>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=32050&query_desc=kw%2Cwrdl%3A%20Advanced%20Engineering%20Mathematics" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a>
+              </div>
+            </div>
+            <div class="book-item">
+              <div class="book-icon"><i class="fas fa-book"></i></div>
+              <div class="book-info">
+                <div class="book-title">Pal & Bhunia — Engineering Mathematics</div>
+                <div class="book-meta"><i class="fas fa-calendar-alt"></i> Oxford, 2015</div>
+                <a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=89472&query_desc=au%2Cwrdl%3A%20Srimanta%20Pal" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Introduction to Data Science -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-database"></i> Introduction to Data Science
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Textbooks / References</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Hopcroft & Kannan — Foundations of Data Science</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> no resource</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Francis X. Govers — Artificial Intelligence for Robotics</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Packt, 2018</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=248521&query_desc=kw%2Cwrdl%3A%20Artificial%20Intelligence%20for%20Robotics" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Peng & Matsui — The Art of Data Science</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> not found</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Kevin Murphy — Machine Learning: A Probabilistic Perspective</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> MIT Press, 2012</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=84243" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">EMC Education — Data Science and Big Data Analytics</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> not found</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Igual & Seguí — Introduction to Data Science (Python)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Springer, 2016</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=171671&query_desc=kw%2Cwrdl%3A%20Introduction%20to%20Data%20Science%3A" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Microcontrollers & Embedded Systems -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-microchip"></i> Microcontrollers & Embedded
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Text / Ref</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Chandrakar & Bahadure — Microcontrollers and Embedded System Design</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> not found</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Joseph Yiu — Definitive Guide to ARM Cortex-M3/M4</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> not found</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Steve Furber — ARM System-on-Chip Architecture (2nd)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Addison Wesley, 2000</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=70010" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Sloss, Symes, Wright — ARM System Developer’s Guide</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Morgan Kaufmann, 2011</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=415918&query_desc=kw%2Cwrdl%3A%20ARM%20System%20Developer%27s%20Guide%3A%20Designing" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Hohl & Hinds — ARM Assembly Language (2nd)</div><div class="book-meta"><span class="badge-note"><i class="fas fa-link-slash"></i> no link</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-file-alt"></i></div><div class="book-info"><div class="book-title">ARM TRM · NXP LPC17xx datasheet</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> no resource</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Fluid Power Systems for Industrial Automation -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-water"></i> Fluid Power & Automation
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Textbooks</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">M.P. Groover — Automation, Production Systems, CIM (5th)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Pearson, 2009</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=184197&query_desc=kw%2Cwrdl%3A%20Automation%2C%20Production%20Systems%2C%20and%20Computer%20Integrated%20Manufacturing" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Antony Esposito — Fluid Power with Applications (7th)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Pearson, 2003</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=82833&query_desc=kw%2Cwrdl%3A%20Fluid%20Power%20with%20Applications" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">W. Bolton — Mechatronics (5th/7th)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Prentice-Hall</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=453078&query_desc=kw%2Cwrdl%3A%20Mechatronics%3A%20Electronic%20Control%20Systems%20in%20Mechanical%20and%20Electrical%20Engineering" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+        </div>
+        <div style="margin-top:1.4rem;">
+          <div class="book-category" style="background:#00b8b815;">References</div>
+          <div class="book-list">
+            <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Sullivan — Fluid Power: Theory & Applications (4th)</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> not found</span></div></div></div>
+            <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Watton — Fundamentals of Fluid Power Control</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Cambridge, 2009</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=453142" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Robotics and Control -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-robot"></i> Robotics & Control
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Text / Ref</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Craig — Introduction to Robotics (4th ed)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Addison-Wesley</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=83990&query_desc=kw%2Cwrdl%3A%20Introduction%20to%20Robotics%3A%20Mechanics%20and%20Control" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Sciavicco & Siciliano — Modeling and Control of Robot Manipulators</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Springer, 2002</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=23054" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Angeles — Fundamentals of Robotic Mechanical Systems</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Springer, 1997</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=142356&query_desc=kw%2Cwrdl%3A%20Fundamentals%20of%20Robotic%20Mechanical%20Systems" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Fu, Gonzales, Lee — Robotics: Control, Sensing, Vision, Intelligence</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> McGraw-Hill</div><div class="book-links-group"><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=33098&query_desc=kw%2Cwrdl%3A%20Robotics%3A%20Control%2C%20Sensing%2C%20Vision%2C%20and%20Intelligence" target="_blank"><i class="fas fa-external-link-alt"></i> copy1</a><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=184259&query_desc=kw%2Cwrdl%3A%20Robotics%3A%20Control%2C%20Sensing%2C%20Vision%2C%20and%20Intelligence" target="_blank"><i class="fas fa-external-link-alt"></i> copy2</a></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Shames — Engineering Mechanics: Statics & Dynamics (4/e)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Prentice-Hall</div><div class="book-links-group"><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=37358&query_desc=au%2Cwrdl%3A%20Shames%2CI.H" target="_blank"><i class="fas fa-external-link-alt"></i> normal</a><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=453054&query_desc=au%2Cwrdl%3A%20Shames%2CI.H" target="_blank"><i class="fas fa-external-link-alt"></i> Pearson India</a></div></div></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- 6. MCU Lab -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-microscope"></i> MCU & Embedded Lab
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> References</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Yifeng Zhu — Embedded Systems with ARM Cortex-M</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> no book</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-file-alt"></i></div><div class="book-info"><div class="book-title">ARM Technical Reference Manual</div><div class="book-meta"><a class="book-link" href="https://developer.arm.com/documentation/" target="_blank"><i class="fas fa-external-link-alt"></i> ARM docs</a></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-file-alt"></i></div><div class="book-info"><div class="book-title">ARM Architecture Reference Manual</div><div class="book-meta"><a class="book-link" href="https://developer.arm.com/documentation/" target="_blank"><i class="fas fa-external-link-alt"></i> ARM docs</a></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-file-pdf"></i></div><div class="book-info"><div class="book-title">NXP LPC17xx user manual</div><div class="book-meta"><a class="book-link" href="https://www.nxp.com/docs/en/user-guide/UM10360.pdf" target="_blank"><i class="fas fa-external-link-alt"></i> PDF</a></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-file-pdf"></i></div><div class="book-info"><div class="book-title">Keil MDK Getting Started</div><div class="book-meta"><a class="book-link" href="https://www2.keil.com/docs/default-source/default-document-library/mdk5-getting-started.pdf?sfvrsn=2" target="_blank"><i class="fas fa-external-link-alt"></i> PDF</a></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Design Thinking -->
+    <div class="course-card">
+      <div class="course-title">
+        <i class="fas fa-paint-brush"></i> Design Thinking
+      </div>
+      <div class="book-section">
+        <div class="book-category"><i class="fas fa-book"></i> Text / Ref</div>
+        <div class="book-list">
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Tim Brown — Change by Design</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> HarperCollins</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=453040" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Idris Mootee — Design Thinking for Strategic Innovation</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Wiley, 2013</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=83509&query_desc=kw%2Cwrdl%3A%20Design%20Thinking%20for%20Strategic%20Innovation" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Brenda Laurel — Design Research Methods</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> no</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Terwiesch & Ulrich — Innovation Tournaments</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> HBP, 2009</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=83511&query_desc=kw%2Cwrdl%3A%20Innovation%20Tournaments" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Ulrich & Eppinger — Product Design & Development (3rd/4th)</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> McGraw Hill</div><div class="book-links-group"><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=43539&query_desc=kw%2Cwrdl%3A%20Product%20Design%20and%20Development" target="_blank"><i class="fas fa-external-link-alt"></i> 3rd</a><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=75223&query_desc=kw%2Cwrdl%3A%20Product%20Design%20and%20Development" target="_blank"><i class="fas fa-external-link-alt"></i> 4th</a></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Stuart Pugh — Total Design</div><div class="book-meta"><span class="no-resource"><i class="fas fa-eye-slash"></i> no</span></div></div></div>
+          <div class="book-item"><div class="book-icon"><i class="fas fa-book"></i></div><div class="book-info"><div class="book-title">Kevin Henry — Drawing for Product Designers</div><div class="book-meta"><i class="fas fa-calendar-alt"></i> Laurence King, 2012</div><a class="book-link" href="https://opac.cb.amrita.edu/cgi-bin/koha/opac-detail.pl?biblionumber=83510" target="_blank"><i class="fas fa-external-link-alt"></i> OPAC</a></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- end course-grid -->
+
+  <!-- footer with trust & personality -->
+  <div class="footer-note">
+    <div>
+      <i class="fas fa-graduation-cap"></i> Semester 5 · B.Tech Automation & Robotics 
+    </div>
+    <div>
+       built with <i class="fas fa-heart" style="color:#00b8b8;"></i> for easy access <i class="fas fa-star"></i>
+      <span class="pill"><i class="fas fa-book-open"></i> 7 courses</span>
+    </div>
+  </div>
+</div> <!-- container -->
+</body>
+</html>
